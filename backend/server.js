@@ -99,6 +99,17 @@ const generateHtmlEmail = (senderName, senderEmail, subject, body, attachments) 
     return emailHtml;
 };
 
+const deleteFiles = (files) => {
+    files.forEach(file => {
+        fs.unlink(file.path, (err) => {
+            if (err) {
+                console.error(`Failed to delete file: ${file.path}`, err.message);
+            } else {
+                console.log(`Deleted file: ${file.path}`);
+            }
+        });
+    });
+};
 
 app.get("/", (req, res) => {
     res.send("Working")
@@ -168,8 +179,8 @@ app.post("/mail", upload.fields([
             secure: true,
             port: 465,
             auth: {
-                user: "avreetkaur484@gmail.com",
-                pass: "tuwkvrhxpsdrnzvm"
+                user: "your_email",
+                pass: "your_app_password"
             }
         });
 
@@ -197,6 +208,10 @@ app.post("/mail", upload.fields([
                 emailErrors.push({ email, error: error.message });
             }
         }
+
+        const filesToDelete = [...attachments];
+        if (excelFile) filesToDelete.push(excelFile);
+        deleteFiles(filesToDelete);
 
         // Handle response
         if (emailErrors.length > 0) {
