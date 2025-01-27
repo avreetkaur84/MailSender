@@ -373,7 +373,7 @@ app.post('/thankmail',
   ]),
   async (req, res) => {
     try {
-      const {subjectLine, eventName, collaboration_with, skills_gained, date, start_time, end_time, location} = req.body;
+      const {subjectLine, eventName, collaboration_with, skills_gained, date, start_time, end_time, location, url} = req.body;
       const attachments = req.files["attachments"] || [];
       const eventPoster = req.files["eventPoster"] ? req.files["eventPoster"][0] : null;
       const excelFile = req.files["excelFile"] ? req.files["excelFile"][0] : null;
@@ -424,6 +424,7 @@ app.post('/thankmail',
         let htmldata = fs.readFileSync(path.join(__dirname, 'main.html'), 'utf-8');
         
         htmldata = htmldata.replace(/\[name\]/g, name)
+                           .replace(/\[url\]/g, url)
                            .replace(/\[eventName\]/g, eventName)
                            .replace(/\[event_name\]/g, eventName)
                            .replace(/\[collaboration_with\]/g, collaboration_with)

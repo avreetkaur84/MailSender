@@ -39,8 +39,8 @@ const ThankMail = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto my-10 px-12 py-7 border border-gray-300 rounded-lg shadow-md bg-white">
-      <h2 className="text-2xl font-bold mb-6 text-center">Event Invitation Email Form</h2>
+    <div className="w-1/2 mx-auto my-10 px-12 py-7 border border-gray-300 rounded-lg shadow-md bg-white border-2">
+      <h2 className="text-2xl font-bold mb-6 text-center">Thank You Email Form</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
           <label className="block text-sm font-medium mb-1">
@@ -176,6 +176,22 @@ const ThankMail = () => {
             {...register("eventPoster")}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
           />
+        </div>
+
+        {/* Google Feedback Form URL */}
+        <div>
+          <label className="block text-sm font-medium mb-1">
+            Google Feedback Form URL<span className="text-red-500">*</span>
+          </label>
+          <input
+            type="url"
+            {...register("feedbackFormUrl", { required: true })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+            placeholder="Enter the Google Feedback form URL"
+          />
+          {errors.feedbackFormUrl && (
+            <p className="text-red-500 text-sm mt-1">Feedback form URL is required</p>
+          )}
         </div>
 
         {/* Attachments */}
