@@ -39,7 +39,7 @@ const EventEmailForm = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto my-10 px-12 py-7 border border-gray-300 rounded-lg shadow-md bg-white">
+    <div className="w-1/2 mx-auto my-10 px-12 py-7 border border-gray-300 rounded-lg shadow-md bg-white">
       <h2 className="text-2xl font-bold mb-6 text-center">Event Invitation Email Form</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Subject Line */}
