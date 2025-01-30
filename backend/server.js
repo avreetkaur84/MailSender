@@ -3,7 +3,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 
-import mailRouter from "../routes/mail.routes.js"; // Adjust path for Vercel
+import mailRouter from "./routes/mail.routes.js";
 
 dotenv.config();
 
@@ -26,4 +26,12 @@ app.get("/api", (req, res) => {
   res.send("Backend is working on Vercel!");
 });
 
-export default app; // Ensure correct export
+// ✅ Fix: Start the Express server if not in a Vercel serverless function
+const PORT = process.env.PORT || 3000;
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+export default app;
