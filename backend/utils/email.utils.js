@@ -21,7 +21,7 @@ export const sendEmail = async (mailData, attachments = []) => {
         secure: true,
         port: 465,
         auth: {
-            user: "avreetkaur084@gmail.com",
+            user: "cac.cuchd@gmail.com",
             pass: "cmazgdoxzladalyj",
         }
     });
