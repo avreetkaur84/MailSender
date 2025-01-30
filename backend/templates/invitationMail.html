@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>You're Invited to [eventName]!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            background: white;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .header {
+            background-color: #0073e6;
+            color: white;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+        }
+        .content {
+            padding: 20px;
+            font-size: 16px;
+            color: #333;
+            text-align: left;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #0073e6;
+        }
+        .button {
+            background-color: #0073e6;
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px auto;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .footer {
+            font-size: 12px;
+            color: gray;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            🎉 You're Invited to [eventName]! 🎉
+        </div>
+        <div class="content">
+            <p>Dear <strong>[name]</strong>,</p>
+            
+            <p>We are excited to invite you to <span class="highlight">[eventName]</span>, hosted by <strong>[eventHost]</strong>. Join us for an unforgettable experience!</p>
+            
+            <p><strong>📅 Date:</strong> 
+                <span class="highlight">
+                    [startDate] - 
+                    [endDate]
+                </span>
+            </p>
+            
+            <p><strong>⏰ Time:</strong> <span class="highlight">[startTime] to [endTime]</span></p>
+            
+            <p><strong>📍 Venue:</strong> <span class="highlight">[eventVenue]</span></p>
+            
+            <h3>✨ About the Event</h3>
+            <p>[eventDescription]</p>
+            
+            <h3>📌 Special Instructions</h3>
+            <p>[specialInstructions]</p>
+            
+            <p>We would love to have you with us. Kindly confirm your presence by clicking the button below:</p>
+            
+            <!-- <a href="[rsvpLink]" class="button">RSVP Now</a> -->
+            
+            <p><strong>Closing Note:</strong>  
+            "This event promises to be an inspiring and enjoyable experience, bringing together amazing people for an unforgettable gathering. We truly hope you can join us and be a part of this special occasion!"</p>
+        </div>
+        <div class="footer">
+            If you have any questions, feel free to contact us. We look forward to celebrating with you!  
+        </div>
+    </div>
+</body>
+<script>
+    // Sample data (Replace these with actual values)
+    const startDate = startDate;
+    const endDate = endDate; // Set as empty string or null if there's no endDate
+
+    // Selecting the span where the date should be inserted
+    const dateElement = document.getElementById("event-date");
+
+    // Dynamically updating the content
+    dateElement.innerText = endDate ? `${startDate} - ${endDate}` : startDate;
+</script>
+</html>

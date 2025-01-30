@@ -16,23 +16,25 @@
 
         .email-container {
             max-width: 600px;
-            margin: 20px auto;
+            margin: 30px auto;
             background-color: #ffffff;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         .header {
-            background-color: #f43b1e;
+            background: linear-gradient(135deg, #f43b1e, #ff5733);
             color: #ffffff;
             text-align: center;
-            padding: 20px 15px;
+            padding: 25px;
         }
 
         .header h1 {
             margin: 0;
-            font-size: 24px;
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
 
         .content {
@@ -41,23 +43,33 @@
         }
 
         .content p {
-            margin: 10px 0;
+            margin: 12px 0;
+        }
+
+        .content ul {
+            padding-left: 20px;
+        }
+
+        .content ul li {
+            margin-bottom: 8px;
         }
 
         .feedback-button {
             display: inline-block;
             margin: 20px 0;
-            padding: 10px 20px;
-            background-color: #f43b1e;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #f43b1e, #ff5733);
             color: #ffffff;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 8px;
             font-weight: bold;
+            font-size: 14px;
+            transition: background 0.3s ease-in-out;
+            text-align: center;
         }
 
         .feedback-button:hover {
-            background-color: #f43b1e;
-            color: #ffffff;
+            background: linear-gradient(135deg, #ff5733, #f43b1e);
         }
 
         .footer {
@@ -66,15 +78,35 @@
             padding: 15px;
             font-size: 12px;
             color: #666;
+            border-top: 1px solid #e0e0e0;
         }
 
         .footer a {
-            color: #4CAF50;
+            color: #f43b1e;
+            font-weight: bold;
             text-decoration: none;
+            transition: color 0.3s;
         }
 
         .footer a:hover {
+            color: #ff5733;
             text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 10px;
+            }
+
+            .header, .content, .footer {
+                padding: 15px;
+            }
+
+            .feedback-button {
+                padding: 10px 20px;
+                font-size: 13px;
+            }
         }
     </style>
 </head>
@@ -88,20 +120,19 @@
             <p>Dear [name],</p>
             <p>Thank you for joining us at the <strong>[event_name]</strong>, hosted by <strong>Connecting All Circles
                     (CAC)</strong> in collaboration with <strong>[collaboration_with]</strong>! We hope
-                you enjoyed the session and gained valuable insights into the <strong>[skills_gained]</strong>.</p>
+                you enjoyed the session and gained valuable insights into <strong>[skills_gained]</strong>.</p>
             <p><strong>Workshop Details:</strong></p>
             <ul>
-                <li><strong>Date:</strong>[date]</li>
+                <li><strong>Date:</strong> [date]</li>
                 <li><strong>Time:</strong> [start_time] to [end_time]</li>
-                <li><strong>Venue:</strong>[location]</li>
+                <li><strong>Venue:</strong> [location]</li>
             </ul>
             <p>We truly appreciate your enthusiasm and active participation throughout the event. Your presence made the
                 event a great success, and we hope it was as enriching for you as it was for us.</p>
             <p>We would love to hear your feedback about the event. Please take a moment to fill out our feedback
                 form:</p>
-            <p>
-                <!-- https://forms.gle/mitPSGi1VQCvTeBq9 -->
-                <a href=[url] class="feedback-button" target="_blank">Give Feedback</a>
+            <p style="text-align: center;">
+                <a href="[url]" class="feedback-button" target="_blank">Give Feedback</a>
             </p>
             <p>Stay connected for future workshops and exciting events. Let’s continue to explore and innovate together!
             </p>
@@ -111,12 +142,10 @@
         <div class="footer">
             <p>&copy; 2025 Connecting All Circles. All rights reserved.</p>
             <p>
-                <a href="https://www.instagram.com/cac.cuchd?igsh=MWx6aXp4ZzNkNW41aw==" target="_blank"
-                    style="color: #f43b1e; font-weight: bold; text-decoration: none;">
+                <a href="https://www.instagram.com/cac.cuchd?igsh=MWx6aXp4ZzNkNW41aw==" target="_blank">
                     Follow us on Instagram
                 </a>
             </p>
-
         </div>
     </div>
 </body>
