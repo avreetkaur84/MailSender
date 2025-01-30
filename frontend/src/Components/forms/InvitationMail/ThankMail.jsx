@@ -25,6 +25,8 @@ const ThankMail = () => {
         }
       }
 
+      axios.defaults.withCredentials = true;
+
       const response = await axios.post("/mail/thankmail", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
