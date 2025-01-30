@@ -22,7 +22,7 @@ export const sendEmail = async (mailData, attachments = []) => {
         port: 465,
         auth: {
             user: "cac.cuchd@gmail.com",
-            pass: "cmazgdoxzladalyj",
+            pass: "vrfscmlkvqkxwhjp",
         }
     });
 
