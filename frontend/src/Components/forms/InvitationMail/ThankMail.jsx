@@ -34,7 +34,7 @@ const ThankMail = () => {
       // });
 
       const response = await axios.post(
-        "https://mail-sender-backend-gu1bsrkk9-avreet-kaurs-projects.vercel.app/mail/thankmail",
+        "https://mail-sender-backend-three.vercel.app/mail/thankmail",
         formData,
         {
           headers: {
