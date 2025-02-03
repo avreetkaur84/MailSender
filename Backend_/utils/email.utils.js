@@ -21,8 +21,10 @@ export const sendEmail = async (mailData, attachments = []) => {
         secure: true,
         port: 465,
         auth: {
-            user: "cac.cuchd@gmail.com",
-            pass: "vrfscmlkvqkxwhjp",
+            // user: "cac.cuchd@gmail.com",
+            // pass: "vrfscmlkvqkxwhjp",
+            user: process.env.SENDER_EMAIL,
+            pass: process.env.SENDER_PASSWORD
         }
     });
 

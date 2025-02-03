@@ -25,7 +25,7 @@ const EventEmailForm = () => {
         }
       }
       // http://localhost:3000
-      const response = await axios.post("/mail/invitationmail", formData, {
+      const response = await axios.post("http://localhost:3000/mail/invitationmail", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
