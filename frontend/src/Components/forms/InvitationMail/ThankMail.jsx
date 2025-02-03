@@ -27,11 +27,23 @@ const ThankMail = () => {
 
       axios.defaults.withCredentials = true;
 
-      const response = await axios.post("http://localhost:3000/mail/thankmail", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      // const response = await axios.post("http://localhost:3000/mail/thankmail", formData, {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //   },
+      // });
+
+      const response = await axios.post(
+        "https://mail-sender-backend-gu1bsrkk9-avreet-kaurs-projects.vercel.app/mail/thankmail",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      
+
       console.log("Response from server:", response.data);
       alert("Mail sent successfully!");
     } catch (error) {
