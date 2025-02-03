@@ -1,34 +1,45 @@
-import multer from "multer";
+// import express from "express";
+import streamifier from "streamifier";
+import fs from "fs";
 import path from "path";
 
-// Configure Multer storage
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "upload/"); // Ensure this folder exists
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
-});
+// Initialize express
+// const app = express();
 
-// File filter for specific types if needed
-// const fileFilter = (req, file, cb) => {
-//   if (file.mimetype.startsWith("image/") || file.mimetype.includes("excel")) {
-//     cb(null, true);
-//   } else {
-//     cb(new Error("Invalid file type"), false);
-//   }
-// };
+// Custom middleware for processing file uploads using streamifier
+const upload = (req, res, next) => {
+  const { file } = req.body;  // Access the file from the request body
+  if (file) {
+    // Convert the file buffer to a readable stream
+    const fileStream = streamifier.createReadStream(file.buffer);
 
-// Multer upload setup
-const upload = multer({
-  storage,
-  // fileFilter,
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
-}).fields([
-  { name: "attachments", maxCount: 10 },
-  { name: "eventPoster", maxCount: 1 },
-  { name: "excelFile", maxCount: 1 },
-]);
+    // Set the destination folder and file name
+    const uploadFolder = path.join(__dirname, "upload/");
+    const fileName = `${Date.now()}-${file.originalname}`;
+    const filePath = path.join(uploadFolder, fileName);
 
+    // Create a writable stream to write the file to disk
+    const writeStream = fs.createWriteStream(filePath);
+
+    // Pipe the file stream into the write stream
+    fileStream.pipe(writeStream);
+
+    writeStream.on("finish", () => {
+      console.log("File uploaded successfully!");
+      next(); // Proceed to the next middleware or route handler
+    });
+
+    writeStream.on("error", (err) => {
+      console.error("Error while uploading file:", err);
+      res.status(500).send("File upload failed.");
+    });
+  } else {
+    res.status(400).send("No file uploaded.");
+  }
+};
+
+// Route to handle file upload
+// app.post("/upload", express.json(), express.urlencoded({ extended: true }), processFileUpload, (req, res) => {
+//   res.send("File uploaded successfully!");
+// });
 export default upload;
