@@ -21,7 +21,7 @@ export const thankMail = async (req, res) => {
     const excelFile = req.files["excelFile"] ? req.files["excelFile"][0] : null;
 
     if (!excelFile) {
-      return res.status(400).json({ message: "Excel file is required" });
+      return res.status(402).json({ message: "Excel file is required" });
     }
 
     console.log("Worked fine till excel file path");
