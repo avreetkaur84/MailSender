@@ -21,15 +21,15 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://mail-sender-frontend-nine.vercel.app", // Replace with your frontend URL
+    origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type"],
-    credentials: true, // Allow credentials
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
 
 // Explicitly handle OPTIONS preflight requests
-app.options("*", cors({ origin: "https://mail-sender-frontend-nine.vercel.app", credentials: true }));
+// app.options("*", cors({ origin: "https://mail-sender-frontend-nine.vercel.app", credentials: true }));
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
