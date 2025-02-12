@@ -35,4 +35,5 @@ const upload = multer({
   { name: "eventPoster", maxCount: 1 },
 ]);
 
-export { upload, tempFolder }; // Export tempFolder path for usage elsewhere
+export default upload;
+export { tempFolder }; // Export tempFolder path for usage elsewhere
