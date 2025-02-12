@@ -33,16 +33,9 @@ const ThankMail = () => {
       //   },
       // });
 
-      const response = await axios.post(
-        "https://mail-sender-backend-three.vercel.app/mail/thankmail",
-        formData,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post('https://mail-sender-backend-three.vercel.app/mail/thankmail', data)
+      .then(response => console.log("Mail Sent:", response))
+      .catch(error => console.error("CORS Error:", error));
 
       console.log("Response from server:", response.data);
       alert("Mail sent successfully!");
