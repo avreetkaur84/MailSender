@@ -33,9 +33,16 @@ const ThankMail = () => {
       //   },
       // });
 
-      const response = await axios.post('https://mail-sender-backend-three.vercel.app/mail/thankmail', data)
-      .then(response => console.log("Mail Sent:", response))
-      .catch(error => console.error("CORS Error:", error));
+      const response = await axios.post(
+        "https://mail-sender-backend-three.vercel.app/mail/thankmail",
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       console.log("Response from server:", response.data);
       alert("Mail sent successfully!");
@@ -51,7 +58,7 @@ const ThankMail = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
 
         <div className="flex flex-col space-y-1">
-          <label className="text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium mb-1">
             Subject Line<span className="text-red-500">*</span>
           </label>
           <input
@@ -67,7 +74,7 @@ const ThankMail = () => {
 
         {/* Event Name */}
         <div className="flex flex-col space-y-1">
-          <label className="text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium mb-1">
             Event Name<span className="text-red-500">*</span>
           </label>
           <input
@@ -83,7 +90,7 @@ const ThankMail = () => {
 
         {/* Collaboration With */}
         <div className="flex flex-col space-y-1">
-          <label className="text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium mb-1">
             Collaboration With<span className="text-red-500">*</span>
           </label>
           <input
@@ -99,7 +106,7 @@ const ThankMail = () => {
 
         {/* Skills Gained */}
         <div className="flex flex-col space-y-1">
-          <label className="text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium mb-1">
             Skills Gained<span className="text-red-500">*</span>
           </label>
           <input
@@ -115,7 +122,7 @@ const ThankMail = () => {
 
         {/* Date */}
         <div className="flex flex-col space-y-1">
-          <label className="text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium mb-1">
             Date<span className="text-red-500">*</span>
           </label>
           <input
@@ -130,7 +137,7 @@ const ThankMail = () => {
 
         {/* Start Time */}
         <div className="flex flex-col space-y-1">
-          <label className="text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium mb-1">
             Start Time<span className="text-red-500">*</span>
           </label>
           <input
@@ -145,7 +152,7 @@ const ThankMail = () => {
 
         {/* End Time */}
         <div className="flex flex-col space-y-1">
-          <label className="text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium mb-1">
             End Time<span className="text-red-500">*</span>
           </label>
           <input
@@ -160,7 +167,7 @@ const ThankMail = () => {
 
         {/* Location */}
         <div className="flex flex-col space-y-1">
-          <label className="text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium mb-1">
             Location<span className="text-red-500">*</span>
           </label>
           <input
@@ -176,7 +183,7 @@ const ThankMail = () => {
 
         {/* Event Poster */}
         <div className="flex flex-col space-y-1">
-          <label className="text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium mb-1">
             Event Poster (File)<span className="text-red-500">*</span>
           </label>
           <input
@@ -188,7 +195,7 @@ const ThankMail = () => {
 
         {/* Google Feedback Form URL */}
         <div className="flex flex-col space-y-1">
-          <label className="text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium mb-1">
             Google Feedback Form URL<span className="text-red-500">*</span>
           </label>
           <input
@@ -204,7 +211,7 @@ const ThankMail = () => {
 
         {/* Attachments */}
         <div className="flex flex-col space-y-1">
-          <label className="text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium mb-1">
             Attach Files<span className="text-red-500">*</span>
           </label>
           <input
@@ -218,7 +225,7 @@ const ThankMail = () => {
 
         {/* Excel File */}
         <div className="flex flex-col space-y-1">
-          <label className="text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium mb-1">
             Upload Excel File<span className="text-red-500">*</span>
           </label>
           <input
