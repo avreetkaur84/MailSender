@@ -86,13 +86,40 @@ export const thankMail = async (req, res) => {
     }
 
     // Upload attachments to Cloudinary (if available)
-    let attachmentUrls = [];
+    // let attachmentUrls = [];
+    // for (const file of attachments) {
+    //   console.log(`Uploading attachment: ${file.originalname}...`);
+    //   const attachmentUpload = await uploadOnCloudinary(file.path);
+    //   if (attachmentUpload) {
+    //     attachmentUrls.push(attachmentUpload.secure_url);
+    //     console.log("✅ Attachment uploaded:", attachmentUpload.secure_url);
+    //   }
+    // }
+
+    let downloadedAttachments = [];
     for (const file of attachments) {
       console.log(`Uploading attachment: ${file.originalname}...`);
       const attachmentUpload = await uploadOnCloudinary(file.path);
       if (attachmentUpload) {
-        attachmentUrls.push(attachmentUpload.secure_url);
         console.log("✅ Attachment uploaded:", attachmentUpload.secure_url);
+        
+        // **Download attachment from Cloudinary**
+        console.log(`📥 Downloading ${file.originalname} from Cloudinary...`);
+        const fileResponse = await axios({
+          url: attachmentUpload.secure_url,
+          method: "GET",
+          responseType: "stream",
+        });
+
+        const tempFilePath = path.join(__dirname, "../temp", file.originalname);
+        await pipeline(fileResponse.data, fs.createWriteStream(tempFilePath));
+
+        downloadedAttachments.push({
+          filename: file.originalname,
+          path: tempFilePath,
+        });
+
+        console.log("✅ Downloaded and stored:", tempFilePath);
       }
     }
 
@@ -119,7 +146,7 @@ export const thankMail = async (req, res) => {
             eventPosterUrl
           },
         },
-        attachmentUrls // Send Cloudinary URLs as attachments
+        downloadedAttachments // Send Cloudinary URLs as attachments
       );
 
       if (emailError) {

@@ -23,8 +23,11 @@ export const sendEmail = async (mailData, attachments = []) => {
         auth: {
             // user: "cac.cuchd@gmail.com",
             // pass: "vrfscmlkvqkxwhjp",
-            user: process.env.OFFICIAL_EMAIL,
-            pass: process.env.OFFICIAL_PASSWORD
+            // user: process.env.OFFICIAL_EMAIL,
+            // pass: process.env.OFFICIAL_PASSWORD
+
+            user: process.env.SENDER_EMAIL,
+            pass: process.env.SENDER_PASSWORD
         }
     });
 
