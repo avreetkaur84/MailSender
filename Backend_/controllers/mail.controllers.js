@@ -154,6 +154,8 @@ export const thankMail = async (req, res) => {
 
 export const invitationMail = async (req, res) => {
   try {
+    console.log("Received files:", req.files);
+
     const {
       subjectLine,
       eventName,
@@ -172,14 +174,26 @@ export const invitationMail = async (req, res) => {
     const eventPoster = req.files["eventPoster"] ? req.files["eventPoster"][0] : null;
     const excelFile = req.files["excelFile"] ? req.files["excelFile"][0] : null;
 
-    if (!excelFile) {
-      return res.status(400).json({ message: "Excel file is required" });
+    console.log("Uploading Excel file to Cloudinary...");
+
+    // Upload Excel file to Cloudinary
+    const excelUpload = await uploadOnCloudinary(excelFile.path);
+    if (!excelUpload) {
+      return res.status(500).json({ message: "Failed to upload Excel file to Cloudinary" });
     }
+    const excelUrl = excelUpload.secure_url;
+    console.log("✅ Excel file uploaded:", excelUrl);
 
-    console.log("Worked fine till excel file path");
+    // ✅ **Download Excel file from Cloudinary**
+    console.log("📥 Downloading Excel file from Cloudinary...");
+    const response = await axios({
+      url: excelUrl,
+      method: "GET",
+      responseType: "stream", // Stream the file instead of storing it
+    });
 
-    const excelFilePath = excelFile.path;
-
+    const bufferStream = new stream.PassThrough();
+    response.data.pipe(bufferStream);
     const rows = await readXlsxFile(fs.createReadStream(excelFilePath));
     const [rawHeaders, ...data] = rows;
     const headers = rawHeaders.map(header => header.toLowerCase());
@@ -196,6 +210,32 @@ export const invitationMail = async (req, res) => {
     }));
 
     console.log("Worked fine till extracting data from excel file!!");
+
+    console.log("✅ Extracted data from Excel file:", students.length, "students found!");
+
+    // Upload event poster to Cloudinary (if available)
+    let eventPosterUrl = null;
+    if (eventPoster) {
+      console.log("Uploading event poster...");
+      const eventPosterUpload = await uploadOnCloudinary(eventPoster.path);
+      if (eventPosterUpload) {
+        eventPosterUrl = eventPosterUpload.secure_url;
+        console.log("✅ Event poster uploaded:", eventPosterUrl);
+      }
+    }
+
+    // Upload attachments to Cloudinary (if available)
+    let attachmentUrls = [];
+    for (const file of attachments) {
+      console.log(`Uploading attachment: ${file.originalname}...`);
+      const attachmentUpload = await uploadOnCloudinary(file.path);
+      if (attachmentUpload) {
+        attachmentUrls.push(attachmentUpload.secure_url);
+        console.log("✅ Attachment uploaded:", attachmentUpload.secure_url);
+      }
+    }
+
+
 
     let emailErrors = [];
     for (const student of students) {

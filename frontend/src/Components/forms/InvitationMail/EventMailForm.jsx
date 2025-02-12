@@ -24,12 +24,18 @@ const EventEmailForm = () => {
           formData.append(key, data[key]);
         }
       }
-      // http://localhost:3000
-      const response = await axios.post("http://localhost:3000/mail/invitationmail", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      
+      const response = await axios.post(
+        "https://mail-sender-backend-three.vercel.app/mail/invitationmail",
+        formData,
+        {
+            withCredentials: true,
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        }
+    );  
+
       console.log("Response from server:", response.data);
       alert("Mail sent successfully!");
     } catch (error) {
