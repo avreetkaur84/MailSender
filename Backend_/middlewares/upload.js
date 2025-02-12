@@ -1,4 +1,5 @@
 import multer from "multer";
+import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -6,11 +7,18 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Define path for tmp folder
+const tempFolder = path.join(__dirname, "../tmp");
+
+// Ensure tmp folder exists
+if (!fs.existsSync(tempFolder)) {
+  fs.mkdirSync(tempFolder, { recursive: true }); // Create folder if it doesn't exist
+}
+
 // Define storage location & file naming strategy
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadFolder = path.join(__dirname, "../upload/");
-    cb(null, uploadFolder);
+    cb(null, tempFolder); // Save uploaded files in 'tmp' folder
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-${file.originalname}`);
@@ -27,4 +35,4 @@ const upload = multer({
   { name: "eventPoster", maxCount: 1 },
 ]);
 
-export default upload;
+export { upload, tempFolder }; // Export tempFolder path for usage elsewhere
