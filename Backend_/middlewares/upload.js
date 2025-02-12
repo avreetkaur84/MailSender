@@ -1,18 +1,19 @@
 import multer from "multer";
 import fs from "fs";
 import path from "path";
+import os from "os"; 
 import { fileURLToPath } from "url";
 
 // Get __dirname in ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Define path for tmp folder
-const tempFolder = path.join(__dirname, "../tmp");
+// Use system temp directory for safer storage
+const tempFolder = path.join(os.tmpdir(), "uploads");
 
 // Ensure tmp folder exists
 if (!fs.existsSync(tempFolder)) {
-  fs.mkdirSync(tempFolder, { recursive: true }); // Create folder if it doesn't exist
+  fs.mkdirSync(tempFolder, { recursive: true }); // Ensure parent directories are also created
 }
 
 // Define storage location & file naming strategy
@@ -35,5 +36,5 @@ const upload = multer({
   { name: "eventPoster", maxCount: 1 },
 ]);
 
-export default upload;
+export default upload
 export { tempFolder }; // Export tempFolder path for usage elsewhere
