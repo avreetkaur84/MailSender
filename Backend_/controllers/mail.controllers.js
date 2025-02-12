@@ -116,7 +116,7 @@ export const thankMail = async (req, res) => {
             start_time,
             end_time,
             location,
-            eventPosterUrl, // Include Cloudinary URL for the event poster
+            eventPosterUrl
           },
         },
         attachmentUrls // Send Cloudinary URLs as attachments
@@ -257,9 +257,10 @@ export const invitationMail = async (req, res) => {
           eventVenue,
           eventDescription,
           specialInstructions,
+          eventPosterUrl,
           // rsvpLink
         },
-      }, attachments);
+      }, attachmentUrls);
 
       if (emailError) {
         emailErrors.push(emailError);
