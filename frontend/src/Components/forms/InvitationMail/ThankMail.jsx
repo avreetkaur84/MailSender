@@ -25,7 +25,7 @@ const ThankMail = () => {
         }
       }
 
-      axios.defaults.withCredentials = true;
+      // axios.defaults.withCredentials = true;
 
       // const response = await axios.post("http://localhost:3000/mail/thankmail", formData, {
       //   headers: {
@@ -37,11 +37,11 @@ const ThankMail = () => {
         "https://mail-sender-backend-three.vercel.app/mail/thankmail",
         formData,
         {
+          withCredentials: true,  // Ensure the backend supports credentials
           headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+              "Content-Type": "multipart/form-data"
+          }
+      });
       
 
       console.log("Response from server:", response.data);

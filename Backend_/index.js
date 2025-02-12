@@ -20,15 +20,15 @@ const app = express();
 
 app.use(
   cors({
-    origin: "*", // Allow all origins (try with specific frontend origin if needed)
+    origin: "https://mail-sender-frontend-nine.vercel.app", // Replace with your frontend URL
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type"],
+    credentials: true, // Allow credentials
   })
 );
 
 // Explicitly handle OPTIONS preflight requests
-app.options("*", cors());
-
+app.options("*", cors({ origin: "https://mail-sender-frontend-nine.vercel.app", credentials: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
