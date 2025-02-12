@@ -1,40 +1,51 @@
 import multer from "multer";
 import fs from "fs";
 import path from "path";
-import os from "os"; 
-import { fileURLToPath } from "url";
 
-// Get __dirname in ES Modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Define temp storage path
+const tempDir = path.resolve("public/temp");
 
-// Use system temp directory for safer storage
-const tempFolder = path.join(os.tmpdir(), "uploads");
-
-// Ensure tmp folder exists
-if (!fs.existsSync(tempFolder)) {
-  fs.mkdirSync(tempFolder, { recursive: true }); // Ensure parent directories are also created
+// Ensure temp folder exists
+if (!fs.existsSync(tempDir)) {
+    fs.mkdirSync(tempDir, { recursive: true });
 }
 
-// Define storage location & file naming strategy
+// Multer Storage Config
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, tempFolder); // Save uploaded files in 'tmp' folder
+  destination: function (req, file, cb) {
+      console.log(`Saving file: ${file.originalname} (Type: ${file.mimetype})`);
+      cb(null, tempDir);
   },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
+  filename: function (req, file, cb) {
+      const fileName = `${Date.now()}-${file.originalname}`;
+      console.log(`Final File Name: ${fileName}`);
+      cb(null, fileName);
+  }
 });
 
-// Set up file upload handling
-const upload = multer({
-  storage: storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // Limit file size to 10MB
-}).fields([
-  { name: "attachments", maxCount: 5 },
-  { name: "excelFile", maxCount: 1 },
-  { name: "eventPoster", maxCount: 1 },
-]);
 
-export default upload
-export { tempFolder }; // Export tempFolder path for usage elsewhere
+const fileFilter = (req, file, cb) => {
+  const allowedMimeTypes = [
+      "image/png",
+      "image/jpeg",
+      "image/jpg",
+      "application/vnd.ms-excel", // .xls
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" // .xlsx
+  ];
+
+  console.log(`🔍 Checking file: ${file.originalname} (Type: ${file.mimetype})`);
+// 
+  if (allowedMimeTypes.includes(file.mimetype)) {
+      cb(null, true);
+  } else {
+      console.log("⛔ File type not allowed:", file.mimetype);
+      cb(new Error("Invalid file type"), false);
+  }
+};
+
+const upload = multer({
+  storage,
+  fileFilter
+});
+
+export default upload;

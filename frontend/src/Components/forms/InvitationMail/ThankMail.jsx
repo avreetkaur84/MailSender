@@ -34,15 +34,15 @@ const ThankMail = () => {
       // });
 
       const response = await axios.post(
-        "https://mail-sender-backend-three.vercel.app/mail/thankmail",
-        formData,
-        {
-          withCredentials: true,  // Ensure the backend supports credentials
-          headers: {
-              "Content-Type": "multipart/form-data"
-          }
-      });
-      
+            "https://mail-sender-backend-three.vercel.app/mail/thankmail",
+            formData,
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            }
+        );      
 
       console.log("Response from server:", response.data);
       alert("Mail sent successfully!");
