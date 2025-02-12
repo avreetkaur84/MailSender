@@ -11,6 +11,9 @@ const __dirname = path.dirname(__filename);
 
 export const thankMail = async (req, res) => {
   try {
+    console.log("Received body:", req.body);
+    console.log("Received files:", req.files);
+
     const {
       subjectLine, eventName, collaboration_with, skills_gained,
       date, start_time, end_time, location, url
@@ -27,6 +30,7 @@ export const thankMail = async (req, res) => {
     console.log("Worked fine till excel file path");
 
     const excelFilePath = excelFile.path;
+    console.log("Excel File Path:", excelFile?.path);
 
     const rows = await readXlsxFile(fs.createReadStream(excelFilePath));
     const [rawHeaders, ...data] = rows;
