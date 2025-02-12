@@ -34,15 +34,15 @@ const ThankMail = () => {
       // });
 
       const response = await axios.post(
-            "https://mail-sender-backend-three.vercel.app/mail/thankmail",
-            formData,
-            {
-                withCredentials: true,
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            }
-        );      
+        "https://mail-sender-backend-three.vercel.app/mail/thankmail",
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       console.log("Response from server:", response.data);
       alert("Mail sent successfully!");
@@ -53,11 +53,12 @@ const ThankMail = () => {
   };
 
   return (
-    <div className="w-1/2 mx-auto my-10 px-12 py-7 border border-gray-300 rounded-lg shadow-md bg-white border-2">
-      <h2 className="text-2xl font-bold mb-6 text-center">Thank You Email Form</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">
+    <div className="w-full max-w-2xl mx-auto my-10 px-8 py-6 border border-gray-300 rounded-lg shadow-lg bg-white">
+      <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Thank You Email Form</h2>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">
             Subject Line<span className="text-red-500">*</span>
           </label>
           <input
@@ -72,8 +73,8 @@ const ThankMail = () => {
         </div>
 
         {/* Event Name */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">
             Event Name<span className="text-red-500">*</span>
           </label>
           <input
@@ -88,8 +89,8 @@ const ThankMail = () => {
         </div>
 
         {/* Collaboration With */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">
             Collaboration With<span className="text-red-500">*</span>
           </label>
           <input
@@ -104,8 +105,8 @@ const ThankMail = () => {
         </div>
 
         {/* Skills Gained */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">
             Skills Gained<span className="text-red-500">*</span>
           </label>
           <input
@@ -120,8 +121,8 @@ const ThankMail = () => {
         </div>
 
         {/* Date */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">
             Date<span className="text-red-500">*</span>
           </label>
           <input
@@ -135,8 +136,8 @@ const ThankMail = () => {
         </div>
 
         {/* Start Time */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">
             Start Time<span className="text-red-500">*</span>
           </label>
           <input
@@ -150,8 +151,8 @@ const ThankMail = () => {
         </div>
 
         {/* End Time */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">
             End Time<span className="text-red-500">*</span>
           </label>
           <input
@@ -165,8 +166,8 @@ const ThankMail = () => {
         </div>
 
         {/* Location */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">
             Location<span className="text-red-500">*</span>
           </label>
           <input
@@ -181,8 +182,8 @@ const ThankMail = () => {
         </div>
 
         {/* Event Poster */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">
             Event Poster (File)<span className="text-red-500">*</span>
           </label>
           <input
@@ -193,8 +194,8 @@ const ThankMail = () => {
         </div>
 
         {/* Google Feedback Form URL */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">
             Google Feedback Form URL<span className="text-red-500">*</span>
           </label>
           <input
@@ -209,8 +210,8 @@ const ThankMail = () => {
         </div>
 
         {/* Attachments */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">
             Attach Files<span className="text-red-500">*</span>
           </label>
           <input
@@ -223,8 +224,8 @@ const ThankMail = () => {
         </div>
 
         {/* Excel File */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">
             Upload Excel File<span className="text-red-500">*</span>
           </label>
           <input
@@ -239,7 +240,7 @@ const ThankMail = () => {
         </div>
 
         {/* Submit Button */}
-        <div>
+        <div className="flex flex-col space-y-1">
           <button
             type="submit"
             className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none"

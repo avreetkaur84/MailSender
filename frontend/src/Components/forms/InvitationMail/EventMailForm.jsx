@@ -45,39 +45,39 @@ const EventEmailForm = () => {
   };
 
   return (
-    <div className="w-1/2 mx-auto my-10 px-12 py-7 border border-gray-300 rounded-lg shadow-md bg-white">
-      <h2 className="text-2xl font-bold mb-6 text-center">Event Invitation Email Form</h2>
+    <div className="w-full max-w-2xl mx-auto my-10 px-8 py-6 border border-gray-300 rounded-lg shadow-lg bg-white">
+      <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Event Invitation Email Form</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Subject Line */}
-        <div>
-          <label className="block text-sm font-medium mb-1">Subject Line<span className="text-red-500">*</span></label>
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">Subject Line<span className="text-red-500">*</span></label>
           <input type="text" {...register("subjectLine", { required: true })} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300" placeholder="Enter the email subject" />
           {errors.subjectLine && <p className="text-red-500 text-sm mt-1">Subject line is required</p>}
         </div>
 
         {/* Event Name */}
-        <div>
-          <label className="block text-sm font-medium mb-1">Event Name<span className="text-red-500">*</span></label>
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">Event Name<span className="text-red-500">*</span></label>
           <input type="text" {...register("eventName", { required: true })} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300" placeholder="Enter the event name" />
           {errors.eventName && <p className="text-red-500 text-sm mt-1">Event name is required</p>}
         </div>
 
         {/* Event Host */}
-        <div>
-          <label className="block text-sm font-medium mb-1">Event Host<span className="text-red-500">*</span></label>
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">Event Host<span className="text-red-500">*</span></label>
           <input type="text" {...register("eventHost", { required: true })} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300" placeholder="Enter the host name" />
           {errors.eventHost && <p className="text-red-500 text-sm mt-1">Event host is required</p>}
         </div>
 
         {/* Event Poster */}
-        <div>
-          <label className="block text-sm font-medium mb-1">Event Poster (File)</label>
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">Event Poster (File)</label>
           <input type="file" {...register("eventPoster")} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300" />
         </div>
 
         {/* Event Date */}
-        <div>
-          <label className="block text-sm font-medium mb-1">Event Date<span className="text-red-500">*</span></label>
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">Event Date<span className="text-red-500">*</span></label>
           <div className="flex space-x-2">
             <input type="date" {...register("startDate", { required: true })} className="w-1/2 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300" />
             <input type="date" {...register("endDate")} className="w-1/2 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300" />
@@ -86,8 +86,8 @@ const EventEmailForm = () => {
         </div>
 
         {/* Event Time */}
-        <div>
-          <label className="block text-sm font-medium mb-1">Event Time<span className="text-red-500">*</span></label>
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">Event Time<span className="text-red-500">*</span></label>
           <div className="flex space-x-4">
             <div className="w-1/2">
               <label className="block text-sm text-gray-600 mb-1">From</label>
@@ -103,35 +103,35 @@ const EventEmailForm = () => {
         </div>
 
         {/* Event Venue */}
-        <div>
-          <label className="block text-sm font-medium mb-1">Event Venue<span className="text-red-500">*</span></label>
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">Event Venue<span className="text-red-500">*</span></label>
           <input type="text" {...register("eventVenue", { required: true })} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300" placeholder="Enter event venue" />
           {errors.eventVenue && <p className="text-red-500 text-sm mt-1">Event venue is required</p>}
         </div>
 
         {/* Event Description */}
-        <div>
-          <label className="block text-sm font-medium mb-1">Event Description<span className="text-red-500">*</span></label>
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">Event Description<span className="text-red-500">*</span></label>
           <textarea {...register("eventDescription", { required: true })} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300" rows="4" placeholder="Enter event details"></textarea>
           {errors.eventDescription && <p className="text-red-500 text-sm mt-1">Event description is required</p>}
         </div>
 
         {/* Special Instructions */}
-        <div>
-          <label className="block text-sm font-medium mb-1">Special Instructions</label>
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">Special Instructions</label>
           <textarea {...register("specialInstructions")} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300" rows="3" placeholder="Enter any special instructions"></textarea>
         </div>
 
         {/* RSVP Link */}
-        {/* <div>
-          <label className="block text-sm font-medium mb-1">RSVP Link<span className="text-red-500">*</span></label>
+        {/* <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">RSVP Link<span className="text-red-500">*</span></label>
           <input type="url" {...register("rsvpLink", { required: true })} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300" placeholder="Enter RSVP link" />
           {errors.rsvpLink && <p className="text-red-500 text-sm mt-1">RSVP link is required</p>}
         </div> */}
 
         {/* Attachments */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">
             Attach Files<span className="text-red-500">*</span>
           </label>
           <input
@@ -144,8 +144,8 @@ const EventEmailForm = () => {
         </div>
 
         {/* Excel File */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">
             Upload Excel File<span className="text-red-500">*</span>
           </label>
           <input
