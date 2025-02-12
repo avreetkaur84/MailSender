@@ -194,11 +194,13 @@ export const invitationMail = async (req, res) => {
 
     const bufferStream = new stream.PassThrough();
     response.data.pipe(bufferStream);
-    const rows = await readXlsxFile(fs.createReadStream(excelFilePath));
-    const [rawHeaders, ...data] = rows;
-    const headers = rawHeaders.map(header => header.toLowerCase());
-    const nameIndex = headers.indexOf('name');
-    const emailIndex = headers.indexOf('email');
+
+     // ✅ **Read Excel File from Stream**
+     const rows = await readXlsxFile(bufferStream);
+     const [rawHeaders, ...data] = rows;
+     const headers = rawHeaders.map(header => header.toLowerCase());
+     const nameIndex = headers.indexOf("name");
+     const emailIndex = headers.indexOf("email");
 
     if (nameIndex === -1 || emailIndex === -1) {
       throw new Error('The Excel file must contain "name" and "email" columns.');
