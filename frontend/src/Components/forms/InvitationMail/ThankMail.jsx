@@ -35,6 +35,7 @@ const ThankMail = () => {
 
       const response = await axios.post(
         "https://mail-sender-backend-three.vercel.app/mail/thankmail",
+        // "http://localhost:3000/mail/thankmail",
         formData,
         {
           withCredentials: true,

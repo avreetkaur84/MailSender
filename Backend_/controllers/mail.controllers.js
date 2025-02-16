@@ -11,9 +11,63 @@ import stream from "stream"; // ✅ Added for handling streaming
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+
+async function downloadFile(url, outputPath) {
+  const response = await axios({
+    url,
+    method: "GET",
+    responseType: "stream",
+  });
+
+  return new Promise((resolve, reject) => {
+    const writer = fs.createWriteStream(outputPath);
+    response.data.pipe(writer);
+
+    writer.on("finish", () => resolve(`✅ Download complete: ${outputPath}`));
+    writer.on("error", (err) => reject(`❌ File write error: ${err.message}`));
+  });
+}
+
+async function processAttachments(attachments) {
+  let downloadedFiles = [];
+
+  if (!attachments) {
+    console.warn("No attachments provided.");
+    return downloadedFiles;
+  }
+
+  const files = Array.isArray(attachments) ? attachments : [attachments];
+
+  for (const file of files) {
+    console.log(`Uploading attachment: ${file.originalname}...`);
+    const attachmentUpload = await uploadOnCloudinary(file.path);
+
+    if (attachmentUpload) {
+      console.log("Attachment uploaded:", attachmentUpload.secure_url);
+
+      const outputPath = `downloaded_${file.originalname}`;
+      try {
+        await downloadFile(attachmentUpload.secure_url, outputPath);
+
+        // Verify the downloaded file
+        if (!fs.existsSync(outputPath) || fs.statSync(outputPath).size === 0) {
+          throw new Error(`File ${outputPath} is empty or corrupted.`);
+        }
+
+        downloadedFiles.push(outputPath);
+      } catch (err) {
+        console.error(`Error downloading ${file.originalname}:`, err.message);
+      }
+    }
+  }
+
+  return downloadedFiles;
+}
+
+
 export const thankMail = async (req, res) => {
   try {
-    console.log("Received files:", req.files);
+    // console.log("Received files:", req.files);
 
     const {
       subjectLine,
@@ -27,7 +81,14 @@ export const thankMail = async (req, res) => {
       url,
     } = req.body;
 
-    const attachments = req.files["attachments"] || [];
+    const attachments = req.files["attachments"]
+      ? Array.isArray(req.files["attachments"])
+        ? req.files["attachments"]
+        : [req.files["attachments"]]
+      : [];
+
+    let downloadedAttachments = await processAttachments(attachments);
+
     const eventPoster = req.files["eventPoster"] ? req.files["eventPoster"][0] : null;
     const excelFile = req.files["excelFile"] ? req.files["excelFile"][0] : null;
 
@@ -85,8 +146,9 @@ export const thankMail = async (req, res) => {
       }
     }
 
+
     // Upload attachments to Cloudinary (if available)
-    // let attachmentUrls = [];
+    // let downloadedAttachments = processAttachments(attachments);
     // for (const file of attachments) {
     //   console.log(`Uploading attachment: ${file.originalname}...`);
     //   const attachmentUpload = await uploadOnCloudinary(file.path);
@@ -95,17 +157,6 @@ export const thankMail = async (req, res) => {
     //     console.log("✅ Attachment uploaded:", attachmentUpload.secure_url);
     //   }
     // }
-
-    // Upload attachments to Cloudinary (if available)
-    let attachmentUrls = [];
-    for (const file of attachments) {
-      console.log(`Uploading attachment: ${file.originalname}...`);
-      const attachmentUpload = await uploadOnCloudinary(file.path);
-      if (attachmentUpload) {
-        attachmentUrls.push(attachmentUpload.secure_url);
-        console.log("✅ Attachment uploaded:", attachmentUpload.secure_url);
-      }
-    }
 
     // Send emails
     let emailErrors = [];
@@ -130,7 +181,7 @@ export const thankMail = async (req, res) => {
             eventPosterUrl
           },
         },
-        attachmentUrls // Send Cloudinary URLs as attachments
+        downloadedAttachments 
       );
 
       if (emailError) {
@@ -206,12 +257,12 @@ export const invitationMail = async (req, res) => {
     const bufferStream = new stream.PassThrough();
     response.data.pipe(bufferStream);
 
-     // ✅ **Read Excel File from Stream**
-     const rows = await readXlsxFile(bufferStream);
-     const [rawHeaders, ...data] = rows;
-     const headers = rawHeaders.map(header => header.toLowerCase());
-     const nameIndex = headers.indexOf("name");
-     const emailIndex = headers.indexOf("email");
+    // ✅ **Read Excel File from Stream**
+    const rows = await readXlsxFile(bufferStream);
+    const [rawHeaders, ...data] = rows;
+    const headers = rawHeaders.map(header => header.toLowerCase());
+    const nameIndex = headers.indexOf("name");
+    const emailIndex = headers.indexOf("email");
 
     if (nameIndex === -1 || emailIndex === -1) {
       throw new Error('The Excel file must contain "name" and "email" columns.');

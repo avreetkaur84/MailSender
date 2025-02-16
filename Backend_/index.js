@@ -21,6 +21,7 @@ const app = express();
 
 app.use(cors({
   origin: 'https://mail-sender-frontend-nine.vercel.app', // Specify your frontend URL
+  // origin: 'http://localhost:5173/',
   credentials: true,  // Allow credentials (cookies, authorization headers)
 }));
 
