@@ -12,57 +12,57 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 
-async function downloadFile(url, outputPath) {
-  const response = await axios({
-    url,
-    method: "GET",
-    responseType: "stream",
-  });
+// async function downloadFile(url, outputPath) {
+//   const response = await axios({
+//     url,
+//     method: "GET",
+//     responseType: "stream",
+//   });
 
-  return new Promise((resolve, reject) => {
-    const writer = fs.createWriteStream(outputPath);
-    response.data.pipe(writer);
+//   return new Promise((resolve, reject) => {
+//     const writer = fs.createWriteStream(outputPath);
+//     response.data.pipe(writer);
 
-    writer.on("finish", () => resolve(`✅ Download complete: ${outputPath}`));
-    writer.on("error", (err) => reject(`❌ File write error: ${err.message}`));
-  });
-}
+//     writer.on("finish", () => resolve(`✅ Download complete: ${outputPath}`));
+//     writer.on("error", (err) => reject(`❌ File write error: ${err.message}`));
+//   });
+// }
 
-async function processAttachments(attachments) {
-  let downloadedFiles = [];
+// async function processAttachments(attachments) {
+//   let downloadedFiles = [];
 
-  if (!attachments) {
-    console.warn("No attachments provided.");
-    return downloadedFiles;
-  }
+//   if (!attachments) {
+//     console.warn("No attachments provided.");
+//     return downloadedFiles;
+//   }
 
-  const files = Array.isArray(attachments) ? attachments : [attachments];
+//   const files = Array.isArray(attachments) ? attachments : [attachments];
 
-  for (const file of files) {
-    console.log(`Uploading attachment: ${file.originalname}...`);
-    const attachmentUpload = await uploadOnCloudinary(file.path);
+//   for (const file of files) {
+//     console.log(`Uploading attachment: ${file.originalname}...`);
+//     const attachmentUpload = await uploadOnCloudinary(file.path);
 
-    if (attachmentUpload) {
-      console.log("Attachment uploaded:", attachmentUpload.secure_url);
+//     if (attachmentUpload) {
+//       console.log("Attachment uploaded:", attachmentUpload.secure_url);
 
-      const outputPath = `downloaded_${file.originalname}`;
-      try {
-        await downloadFile(attachmentUpload.secure_url, outputPath);
+//       const outputPath = `downloaded_${file.originalname}`;
+//       try {
+//         await downloadFile(attachmentUpload.secure_url, outputPath);
 
-        // Verify the downloaded file
-        if (!fs.existsSync(outputPath) || fs.statSync(outputPath).size === 0) {
-          throw new Error(`File ${outputPath} is empty or corrupted.`);
-        }
+//         // Verify the downloaded file
+//         if (!fs.existsSync(outputPath) || fs.statSync(outputPath).size === 0) {
+//           throw new Error(`File ${outputPath} is empty or corrupted.`);
+//         }
 
-        downloadedFiles.push(outputPath);
-      } catch (err) {
-        console.error(`Error downloading ${file.originalname}:`, err.message);
-      }
-    }
-  }
+//         downloadedFiles.push(outputPath);
+//       } catch (err) {
+//         console.error(`Error downloading ${file.originalname}:`, err.message);
+//       }
+//     }
+//   }
 
-  return downloadedFiles;
-}
+//   return downloadedFiles;
+// }
 
 
 export const thankMail = async (req, res) => {
@@ -87,7 +87,8 @@ export const thankMail = async (req, res) => {
         : [req.files["attachments"]]
       : [];
 
-    let downloadedAttachments = await processAttachments(attachments);
+    // let downloadedAttachments = await processAttachments(attachments);
+    // console.log(downloadedAttachments);
 
     const eventPoster = req.files["eventPoster"] ? req.files["eventPoster"][0] : null;
     const excelFile = req.files["excelFile"] ? req.files["excelFile"][0] : null;
@@ -149,14 +150,15 @@ export const thankMail = async (req, res) => {
 
     // Upload attachments to Cloudinary (if available)
     // let downloadedAttachments = processAttachments(attachments);
-    // for (const file of attachments) {
-    //   console.log(`Uploading attachment: ${file.originalname}...`);
-    //   const attachmentUpload = await uploadOnCloudinary(file.path);
-    //   if (attachmentUpload) {
-    //     attachmentUrls.push(attachmentUpload.secure_url);
-    //     console.log("✅ Attachment uploaded:", attachmentUpload.secure_url);
-    //   }
-    // }
+    let attachmentUrls=[];
+    for (const file of attachments) {
+      console.log(`Uploading attachment: ${file.originalname}...`);
+      const attachmentUpload = await uploadOnCloudinary(file.path);
+      if (attachmentUpload) {
+        attachmentUrls.push(attachmentUpload.secure_url);
+        console.log("✅ Attachment uploaded:", attachmentUpload.secure_url);
+      }
+    }
 
     // Send emails
     let emailErrors = [];
@@ -181,7 +183,7 @@ export const thankMail = async (req, res) => {
             eventPosterUrl
           },
         },
-        downloadedAttachments 
+        attachmentUrls
       );
 
       if (emailError) {
