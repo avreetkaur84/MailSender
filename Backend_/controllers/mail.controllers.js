@@ -160,6 +160,8 @@ export const thankMail = async (req, res) => {
       }
     }
 
+    console.log(url);
+
     // Send emails
     let emailErrors = [];
     for (const student of students) {
@@ -171,7 +173,7 @@ export const thankMail = async (req, res) => {
           templatePath: path.join(__dirname, "../templates/thankMail.html"),
           replacements: {
             name: student.name,
-            url,
+            url: String(url),
             eventName,
             event_name: eventName,
             collaboration_with,
