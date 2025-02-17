@@ -78,7 +78,7 @@ export const thankMail = async (req, res) => {
       start_time,
       end_time,
       location,
-      url,
+      feedbackFormUrl,
     } = req.body;
 
     const attachments = req.files["attachments"]
@@ -160,7 +160,7 @@ export const thankMail = async (req, res) => {
       }
     }
 
-    console.log(url);
+    console.log(feedbackFormUrl);
 
     // Send emails
     let emailErrors = [];
@@ -173,7 +173,7 @@ export const thankMail = async (req, res) => {
           templatePath: path.join(__dirname, "../templates/thankMail.html"),
           replacements: {
             name: student.name,
-            url: String(url),
+            url: feedbackFormUrl,
             eventName,
             event_name: eventName,
             collaboration_with,
