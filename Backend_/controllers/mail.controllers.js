@@ -81,11 +81,7 @@ export const thankMail = async (req, res) => {
       feedbackFormUrl,
     } = req.body;
 
-    const attachments = req.files["attachments"]
-      ? Array.isArray(req.files["attachments"])
-        ? req.files["attachments"]
-        : [req.files["attachments"]]
-      : [];
+    const attachments = req.files["attachments"] ? req.files["attachments"][0] : null;
 
     // let downloadedAttachments = await processAttachments(attachments);
     // console.log(downloadedAttachments);
@@ -147,20 +143,30 @@ export const thankMail = async (req, res) => {
       }
     }
 
-
-    // Upload attachments to Cloudinary (if available)
-    // let downloadedAttachments = processAttachments(attachments);
-    let attachmentUrls=[];
-    for (const file of attachments) {
-      console.log(`Uploading attachment: ${file.originalname}...`);
-      const attachmentUpload = await uploadOnCloudinary(file.path);
-      if (attachmentUpload) {
-        attachmentUrls.push(attachmentUpload.secure_url);
-        console.log("✅ Attachment uploaded:", attachmentUpload.secure_url);
+    let attachmentsUrl = null;
+    if (attachments) {
+      console.log("Uploading event poster...");
+      const attachmentsUpload = await uploadOnCloudinary(attachments.path);
+      if (attachmentsUpload) {
+        attachmentsUrl = attachmentsUpload.secure_url;
+        console.log("✅ Event poster uploaded:", attachmentsUrl);
       }
     }
 
-    console.log(feedbackFormUrl);
+
+    // Upload attachments to Cloudinary (if available)
+    // let downloadedAttachments = processAttachments(attachments);
+    // let attachmentUrls=[];
+    // for (const file of attachments) {
+    //   console.log(`Uploading attachment: ${file.originalname}...`);
+    //   const attachmentUpload = await uploadOnCloudinary(file.path);
+    //   if (attachmentUpload) {
+    //     attachmentUrls.push(attachmentUpload.secure_url);
+    //     console.log("✅ Attachment uploaded:", attachmentUpload.secure_url);
+    //   }
+    // }
+
+    // console.log(feedbackFormUrl);
 
     // Send emails
     let emailErrors = [];
@@ -182,10 +188,10 @@ export const thankMail = async (req, res) => {
             start_time,
             end_time,
             location,
-            eventPosterUrl
+            eventPosterUrl,
+            attachmentsUrl
           },
         },
-        attachmentUrls
       );
 
       if (emailError) {

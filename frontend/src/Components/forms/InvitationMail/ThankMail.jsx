@@ -221,7 +221,7 @@ const ThankMail = () => {
             multiple
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
           />
-          <p className="text-sm text-gray-500 mt-1">You can upload multiple files.</p>
+          <p className="text-sm text-gray-500 mt-1">You can upload your file.</p>
         </div>
 
         {/* Excel File */}

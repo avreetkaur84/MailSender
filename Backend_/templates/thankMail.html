@@ -93,13 +93,30 @@
             text-decoration: underline;
         }
 
-        /* Responsive Design */
+        .attachments {
+            margin-top: 20px;
+        }
+
+        .attachments a {
+            display: block;
+            margin: 5px 0;
+            color: #f43b1e;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .attachments a:hover {
+            text-decoration: underline;
+        }
+
         @media (max-width: 600px) {
             .email-container {
                 margin: 10px;
             }
 
-            .header, .content, .footer {
+            .header,
+            .content,
+            .footer {
                 padding: 15px;
             }
 
@@ -138,16 +155,22 @@
             </p>
             <p>Best regards,</p>
             <p><strong>Connecting All Circles (CAC) Team</strong></p>
+
+            <div class="attachments">
+                <p><a id="attachment-link" href=[attachmentsUrl] target="_blank">Download Attachment</a></p>
+            </div>
+            
+
         </div>
         <div class="footer">
             <p>&copy; 2025 Connecting All Circles. All rights reserved.</p>
             <p>
-                <a href="https://www.instagram.com/cac.cuchd?igsh=MWx6aXp4ZzNkNW41aw==" target="_blank">
+                <a href="https://www.instagram.com/cac.cuchd/" target="_blank">
                     Follow us on Instagram
                 </a>
             </p>
         </div>
     </div>
-</body>
 
+</body>
 </html>
